@@ -32,21 +32,17 @@ class SpriteRenderer {
         // 小马里奥 - 跳跃
         this.spriteCache.set('mario_small_jump', this.createMarioSmallJump());
         
-        // 大马里奥 - 站立
-        this.spriteCache.set('mario_big_idle', this.createMarioBigIdle());
+        // 大马里奥 - 先使用小马里奥的精灵（后续可扩展）
+        this.spriteCache.set('mario_big_idle', this.createMarioSmallIdle());
+        this.spriteCache.set('mario_big_walk1', this.createMarioSmallWalk1());
+        this.spriteCache.set('mario_big_walk2', this.createMarioSmallWalk2());
+        this.spriteCache.set('mario_big_jump', this.createMarioSmallJump());
         
-        // 大马里奥 - 行走动画帧
-        this.spriteCache.set('mario_big_walk1', this.createMarioBigWalk1());
-        this.spriteCache.set('mario_big_walk2', this.createMarioBigWalk2());
-        
-        // 大马里奥 - 跳跃
-        this.spriteCache.set('mario_big_jump', this.createMarioBigJump());
-        
-        // 火焰马里奥
-        this.spriteCache.set('mario_fire_idle', this.createMarioFireIdle());
-        this.spriteCache.set('mario_fire_walk1', this.createMarioFireWalk1());
-        this.spriteCache.set('mario_fire_walk2', this.createMarioFireWalk2());
-        this.spriteCache.set('mario_fire_jump', this.createMarioFireJump());
+        // 火焰马里奥 - 先使用小马里奥的精灵（后续可扩展）
+        this.spriteCache.set('mario_fire_idle', this.createMarioSmallIdle());
+        this.spriteCache.set('mario_fire_walk1', this.createMarioSmallWalk1());
+        this.spriteCache.set('mario_fire_walk2', this.createMarioSmallWalk2());
+        this.spriteCache.set('mario_fire_jump', this.createMarioSmallJump());
     }
 
     createMarioSmallIdle() {
@@ -283,11 +279,11 @@ class SpriteRenderer {
     // 生成敌人精灵
     generateEnemySprites() {
         this.spriteCache.set('goomba_idle', this.createGoombaSprite());
-        this.spriteCache.set('goomba_walk1', this.createGoombaWalk1());
-        this.spriteCache.set('goomba_walk2', this.createGoombaWalk2());
+        this.spriteCache.set('goomba_walk1', this.createGoombaSprite()); // 暂时使用相同精灵
+        this.spriteCache.set('goomba_walk2', this.createGoombaSprite()); // 暂时使用相同精灵
         this.spriteCache.set('koopa_idle', this.createKoopaSprite());
-        this.spriteCache.set('koopa_walk1', this.createKoopaWalk1());
-        this.spriteCache.set('koopa_walk2', this.createKoopaWalk2());
+        this.spriteCache.set('koopa_walk1', this.createKoopaSprite()); // 暂时使用相同精灵
+        this.spriteCache.set('koopa_walk2', this.createKoopaSprite()); // 暂时使用相同精灵
         this.spriteCache.set('piranha_idle', this.createPiranhaSprite());
     }
 
@@ -446,11 +442,7 @@ class SpriteRenderer {
     generateEnvironmentSprites() {
         this.spriteCache.set('brick_block', this.createBrickBlock());
         this.spriteCache.set('question_block', this.createQuestionBlock());
-        this.spriteCache.set('pipe_top', this.createPipeTop());
-        this.spriteCache.set('pipe_body', this.createPipeBody());
-        this.spriteCache.set('cloud_small', this.createCloudSmall());
-        this.spriteCache.set('cloud_medium', this.createCloudMedium());
-        this.spriteCache.set('cloud_large', this.createCloudLarge());
+        // 其他环境元素暂时不实现
     }
 
     createBrickBlock() {
