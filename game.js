@@ -11,6 +11,9 @@ const BULLET_SIZE = 4;
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// 初始化高品质图形系统
+const spriteRenderer = new SpriteRenderer(ctx);
+
 // 输入状态
 const keys = {};
 
@@ -303,129 +306,30 @@ class Enemy {
     draw() {
         if (!this.alive) return;
         
+        // 绘制阴影
         ctx.save();
-        if (this.type === 'goomba') {
-            // 绘制阴影
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.fillRect(this.x + 1, this.y + this.height + 1, this.width - 2, 3);
-            
-            // 绘制身体（带渐变）
-            const bodyGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
-            bodyGradient.addColorStop(0, '#A0522D');
-            bodyGradient.addColorStop(0.5, '#8B4513');
-            bodyGradient.addColorStop(1, '#654321');
-            ctx.fillStyle = bodyGradient;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            
-            // 身体轮廓
-            ctx.strokeStyle = '#654321';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
-            
-            // 绘制眼睛（带高光）
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(this.x + 4, this.y + 6, 6, 6);
-            ctx.fillRect(this.x + 14, this.y + 6, 6, 6);
-            
-            // 眼睛轮廓
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(this.x + 4, this.y + 6, 6, 6);
-            ctx.strokeRect(this.x + 14, this.y + 6, 6, 6);
-            
-            // 瞳孔
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(this.x + 6, this.y + 8, 2, 2);
-            ctx.fillRect(this.x + 16, this.y + 8, 2, 2);
-            
-            // 眼睛高光
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(this.x + 6, this.y + 8, 1, 1);
-            ctx.fillRect(this.x + 16, this.y + 8, 1, 1);
-            
-            // 绘制眉毛
-            ctx.fillStyle = '#654321';
-            ctx.fillRect(this.x + 3, this.y + 4, 8, 2);
-            ctx.fillRect(this.x + 13, this.y + 4, 8, 2);
-            
-            // 绘制嘴巴
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(this.x + 10, this.y + 16, 4, 2);
-            
-            // 绘制脚
-            ctx.fillStyle = '#654321';
-            ctx.fillRect(this.x + 2, this.y + this.height - 4, 6, 4);
-            ctx.fillRect(this.x + 16, this.y + this.height - 4, 6, 4);
-            
-            // 绘制纹理
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx.fillRect(this.x + 2, this.y + 2, this.width - 4, 2);
-            
-        } else if (this.type === 'koopa') {
-            // 绘制库巴龟（带渐变）
-            const shellGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
-            shellGradient.addColorStop(0, '#228B22');
-            shellGradient.addColorStop(0.5, '#32CD32');
-            shellGradient.addColorStop(1, '#006400');
-            ctx.fillStyle = shellGradient;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            
-            // 龟壳轮廓
-            ctx.strokeStyle = '#006400';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
-            
-            // 龟壳纹理
-            ctx.fillStyle = '#32CD32';
-            ctx.fillRect(this.x + 4, this.y + 4, 16, 16);
-            
-            // 头部
-            ctx.fillStyle = '#90EE90';
-            ctx.fillRect(this.x + 8, this.y + 2, 8, 6);
-            
-            // 眼睛
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(this.x + 10, this.y + 4, 2, 2);
-            ctx.fillRect(this.x + 14, this.y + 4, 2, 2);
-            
-            // 脚
-            ctx.fillStyle = '#90EE90';
-            ctx.fillRect(this.x + 2, this.y + this.height - 4, 4, 4);
-            ctx.fillRect(this.x + 18, this.y + this.height - 4, 4, 4);
-            
-        } else if (this.type === 'piranha') {
-            // 绘制食人花（带渐变）
-            const plantGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
-            plantGradient.addColorStop(0, '#228B22');
-            plantGradient.addColorStop(0.5, '#32CD32');
-            plantGradient.addColorStop(1, '#006400');
-            ctx.fillStyle = plantGradient;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            
-            // 植物轮廓
-            ctx.strokeStyle = '#006400';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
-            
-            // 花瓣
-            ctx.fillStyle = '#FF6B6B';
-            ctx.fillRect(this.x + 2, this.y + 2, 20, 8);
-            ctx.fillRect(this.x + 2, this.y + 14, 20, 8);
-            
-            // 花蕊
-            ctx.fillStyle = '#FFD700';
-            ctx.fillRect(this.x + 8, this.y + 8, 8, 8);
-            
-            // 眼睛
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(this.x + 10, this.y + 10, 2, 2);
-            ctx.fillRect(this.x + 14, this.y + 10, 2, 2);
-            
-            // 嘴巴
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(this.x + 11, this.y + 12, 2, 2);
-        }
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(this.x + 2, this.y + this.height + 1, this.width - 4, 3);
         ctx.restore();
+        
+        // 确定精灵名称和动画
+        let spriteName = this.getEnemySpriteName();
+        
+        // 绘制敌人精灵
+        spriteRenderer.drawSprite(spriteName, this.x, this.y, this.vx < 0, 1);
+    }
+    
+    getEnemySpriteName() {
+        // 根据类型和状态确定精灵名称
+        let baseName = this.type + '_idle';
+        
+        // 如果在移动，使用行走动画
+        if (Math.abs(this.vx) > 0) {
+            const frameNum = (Math.floor(Date.now() / 300) % 2) + 1;
+            baseName = this.type + '_walk' + frameNum;
+        }
+        
+        return baseName;
     }
     die() {
         this.alive = false;
@@ -472,11 +376,15 @@ class Item {
     draw() {
         if (this.collected) return;
         
+        // 绘制阴影
         ctx.save();
-        if (this.type === 'coin') {
-            // 绘制阴影
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.fillRect(this.x + 1, this.y + this.animationOffset + 1, this.width - 2, this.height - 2);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(this.x + 2, this.y + this.animationOffset + 2, this.width - 4, 2);
+        ctx.restore();
+        
+        // 绘制道具精灵
+        spriteRenderer.drawSprite(this.type, this.x, this.y + this.animationOffset, false, 1);
+    }
             
             // 绘制金币（带渐变）
             const coinGradient = ctx.createRadialGradient(
@@ -766,151 +674,88 @@ class Player {
             return; // 闪烁效果
         }
         
-        ctx.save();
-        
         // 绘制阴影
+        ctx.save();
         ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-        ctx.fillRect(this.x + 2, this.y + this.height + 2, this.width - 4, 4);
+        ctx.fillRect(this.x + 4, this.y + this.height + 2, this.width - 8, 4);
+        ctx.restore();
         
-        // 绘制身体（带渐变）
-        const bodyGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
-        bodyGradient.addColorStop(0, '#FF4444');
-        bodyGradient.addColorStop(0.5, '#FF0000');
-        bodyGradient.addColorStop(1, '#CC0000');
-        ctx.fillStyle = bodyGradient;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // 确定要绘制的精灵
+        let spriteName = this.getCurrentSpriteName();
         
-        // 绘制身体轮廓
-        ctx.strokeStyle = '#AA0000';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
+        // 绘制精灵（根据朝向翻转）
+        spriteRenderer.drawSprite(spriteName, this.x, this.y, !this.facingRight, 1);
         
-        // 绘制帽子（带渐变和装饰）
-        const hatGradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + 16);
-        hatGradient.addColorStop(0, '#CC0000');
-        hatGradient.addColorStop(1, '#AA0000');
-        ctx.fillStyle = hatGradient;
-        ctx.fillRect(this.x, this.y, this.width, 16);
+        // 火焰力量特效
+        if (this.firePower) {
+            this.drawFireEffect();
+        }
         
-        // 帽子装饰
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(this.x + 8, this.y + 2, 16, 4);
-        ctx.fillStyle = '#FFD700';
-        ctx.fillRect(this.x + 10, this.y + 3, 12, 2);
+        // 无敌星星特效
+        if (this.invincible && this.invincibleTimer > 0) {
+            this.drawStarEffect();
+        }
+    }
+    
+    getCurrentSpriteName() {
+        // 根据状态确定精灵名称
+        let prefix = 'mario';
         
-        // 帽子边缘
-        ctx.fillStyle = '#AA0000';
-        ctx.fillRect(this.x - 2, this.y + 12, 4, 4);
-        ctx.fillRect(this.x + this.width - 2, this.y + 12, 4, 4);
-        
-        // 绘制眼睛（带高光）
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(this.x + 6, this.y + 18, 8, 8);
-        ctx.fillRect(this.x + 18, this.y + 18, 8, 8);
-        
-        // 眼睛轮廓
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(this.x + 6, this.y + 18, 8, 8);
-        ctx.strokeRect(this.x + 18, this.y + 18, 8, 8);
-        
-        // 绘制瞳孔（带高光）
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(this.x + 8, this.y + 20, 4, 4);
-        ctx.fillRect(this.x + 20, this.y + 20, 4, 4);
-        
-        // 眼睛高光
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(this.x + 9, this.y + 21, 2, 2);
-        ctx.fillRect(this.x + 21, this.y + 21, 2, 2);
-        
-        // 绘制鼻子（带渐变）
-        const noseGradient = ctx.createRadialGradient(this.x + 16, this.y + 28, 0, this.x + 16, this.y + 28, 4);
-        noseGradient.addColorStop(0, '#FFCCCC');
-        noseGradient.addColorStop(1, '#FF9999');
-        ctx.fillStyle = noseGradient;
-        ctx.fillRect(this.x + 14, this.y + 26, 4, 4);
-        
-        // 绘制嘴巴（带表情）
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(this.x + 12, this.y + 32, 8, 2);
-        
-        // 绘制胡子（更精细）
-        ctx.fillStyle = '#8B4513';
-        // 上排胡子
-        ctx.fillRect(this.x + 8, this.y + 30, 6, 2);
-        ctx.fillRect(this.x + 18, this.y + 30, 6, 2);
-        // 下排胡子
-        ctx.fillRect(this.x + 6, this.y + 32, 4, 2);
-        ctx.fillRect(this.x + 22, this.y + 32, 4, 2);
-        // 侧边胡子
-        ctx.fillRect(this.x + 4, this.y + 28, 3, 1);
-        ctx.fillRect(this.x + 25, this.y + 28, 3, 1);
-        
-        // 绘制手套（带渐变和细节）
-        const gloveGradient = ctx.createLinearGradient(this.x - 6, this.y + 24, this.x + 2, this.y + 36);
-        gloveGradient.addColorStop(0, '#FFFFFF');
-        gloveGradient.addColorStop(1, '#EEEEEE');
-        ctx.fillStyle = gloveGradient;
-        ctx.fillRect(this.x - 6, this.y + 24, 12, 16);
-        ctx.fillRect(this.x + 26, this.y + 24, 12, 16);
-        
-        // 手套轮廓
-        ctx.strokeStyle = '#CCCCCC';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(this.x - 6, this.y + 24, 12, 16);
-        ctx.strokeRect(this.x + 26, this.y + 24, 12, 16);
-        
-        // 手套装饰
-        ctx.fillStyle = '#FFD700';
-        ctx.fillRect(this.x - 4, this.y + 26, 8, 2);
-        ctx.fillRect(this.x + 28, this.y + 26, 8, 2);
-        
-        // 绘制手枪
-        ctx.fillStyle = '#8B4513';
-        if (this.facingRight) {
-            ctx.fillRect(this.x + 26, this.y + 20, 8, 4);
-            ctx.fillRect(this.x + 34, this.y + 19, 6, 6);
+        // 确定尺寸前缀
+        if (this.firePower) {
+            prefix += '_fire';
+        } else if (this.isBig) {
+            prefix += '_big';
         } else {
-            ctx.fillRect(this.x - 2, this.y + 20, 8, 4);
-            ctx.fillRect(this.x - 8, this.y + 19, 6, 6);
+            prefix += '_small';
         }
         
-        // 绘制裤子
-        ctx.fillStyle = '#0000AA';
-        ctx.fillRect(this.x + 4, this.y + 36, 24, 8);
-        
-        // 裤子装饰
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(this.x + 8, this.y + 38, 4, 4);
-        ctx.fillRect(this.x + 20, this.y + 38, 4, 4);
-        
-        // 绘制鞋子（带渐变和细节）
-        const shoeGradient = ctx.createLinearGradient(this.x, this.y + this.height - 12, this.x, this.y + this.height);
-        shoeGradient.addColorStop(0, '#8B4513');
-        shoeGradient.addColorStop(1, '#654321');
-        ctx.fillStyle = shoeGradient;
-        ctx.fillRect(this.x, this.y + this.height - 12, 14, 12);
-        ctx.fillRect(this.x + 18, this.y + this.height - 12, 14, 12);
-        
-        // 鞋子装饰
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(this.x + 2, this.y + this.height - 10, 10, 2);
-        ctx.fillRect(this.x + 20, this.y + this.height - 10, 10, 2);
-        
-        // 鞋子轮廓
-        ctx.strokeStyle = '#654321';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(this.x, this.y + this.height - 12, 14, 12);
-        ctx.strokeRect(this.x + 18, this.y + this.height - 12, 14, 12);
-        
-        // 绘制动画效果（移动时的摆动）
-        if (Math.abs(this.vx) > 0.1) {
-            const swingOffset = Math.sin(this.animationFrame * 0.5) * 2;
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.fillRect(this.x + 4, this.y + 4, this.width - 8, 4);
+        // 确定动作后缀
+        if (!this.onGround) {
+            return prefix + '_jump';
+        } else if (Math.abs(this.vx) > 0.1) {
+            // 行走动画
+            const frameNum = (this.animationFrame % 20 < 10) ? 1 : 2;
+            return prefix + '_walk' + frameNum;
+        } else {
+            return prefix + '_idle';
         }
+    }
+    
+    drawFireEffect() {
+        // 火焰力量的视觉效果
+        const time = Date.now() * 0.01;
+        ctx.save();
+        ctx.globalAlpha = 0.6;
         
+        for (let i = 0; i < 3; i++) {
+            const offsetX = Math.sin(time + i) * 2;
+            const offsetY = Math.cos(time + i * 2) * 1;
+            
+            ctx.fillStyle = i % 2 === 0 ? '#FF4444' : '#FF8844';
+            ctx.fillRect(
+                this.x + offsetX + i * 4, 
+                this.y + offsetY + i * 6, 
+                4, 6
+            );
+        }
+        ctx.restore();
+    }
+    
+    drawStarEffect() {
+        // 星星无敌的闪烁效果
+        const time = Date.now() * 0.02;
+        ctx.save();
+        ctx.globalAlpha = 0.8;
+        
+        for (let i = 0; i < 4; i++) {
+            const angle = (time + i * Math.PI / 2) % (Math.PI * 2);
+            const radius = 20;
+            const x = this.x + this.width / 2 + Math.cos(angle) * radius;
+            const y = this.y + this.height / 2 + Math.sin(angle) * radius;
+            
+            spriteRenderer.drawSprite('star', x - 8, y - 8, false, 0.5);
+        }
         ctx.restore();
     }
     

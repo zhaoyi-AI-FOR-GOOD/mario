@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马里奥游戏 - 图形系统测试</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #87CEEB 100%);
+            min-height: 100vh;
+        }
+        
+        #gameContainer {
+            border: 4px solid #8B4513;
+            border-radius: 15px;
+            background: #87CEEB;
+            margin: 0 auto;
+            position: relative;
+            width: 808px;
+        }
+        
+        #gameCanvas {
+            display: block;
+            background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 50%, #228B22 100%);
+            border-radius: 11px;
+        }
+        
+        .info {
+            margin: 20px 0;
+            text-align: center;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+    </div>
+    
+    <div class="info">
+        <h2>🎨 马里奥游戏 - 高品质图形系统测试</h2>
+        <p><strong>🎯 测试内容:</strong> 专业级像素艺术精灵图渲染</p>
+        <p><strong>✨ 特色:</strong> 高清像素马里奥、敌人、道具精灵</p>
+        <p><strong>🎮 效果:</strong> 无抗锯齿像素完美渲染</p>
+    </div>
+
+    <script src="graphics.js"></script>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 初始化精灵渲染器
+        const spriteRenderer = new SpriteRenderer(ctx);
+        
+        // 测试精灵渲染
+        function testGraphics() {
+            // 清屏
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, 800, 600);
+            
+            // 绘制标题
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 32px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('🎨 高品质精灵图系统演示', 400, 50);
+            
+            // 测试马里奥精灵
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('马里奥精灵:', 50, 120);
+            
+            // 小马里奥系列
+            spriteRenderer.drawSprite('mario_small_idle', 50, 140, false, 2);
+            spriteRenderer.drawSprite('mario_small_walk1', 120, 140, false, 2);
+            spriteRenderer.drawSprite('mario_small_walk2', 190, 140, false, 2);
+            spriteRenderer.drawSprite('mario_small_jump', 260, 140, false, 2);
+            
+            // 大马里奥系列（如果实现了）
+            ctx.fillText('大马里奥精灵:', 50, 240);
+            spriteRenderer.drawSprite('mario_big_idle', 50, 260, false, 2);
+            spriteRenderer.drawSprite('mario_big_walk1', 120, 260, false, 2);
+            spriteRenderer.drawSprite('mario_big_walk2', 190, 260, false, 2);
+            spriteRenderer.drawSprite('mario_big_jump', 260, 260, false, 2);
+            
+            // 火焰马里奥系列（如果实现了）
+            ctx.fillText('火焰马里奥精灵:', 50, 360);
+            spriteRenderer.drawSprite('mario_fire_idle', 50, 380, false, 2);
+            spriteRenderer.drawSprite('mario_fire_walk1', 120, 380, false, 2);
+            spriteRenderer.drawSprite('mario_fire_walk2', 190, 380, false, 2);
+            spriteRenderer.drawSprite('mario_fire_jump', 260, 380, false, 2);
+            
+            // 敌人精灵
+            ctx.fillText('敌人精灵:', 400, 120);
+            spriteRenderer.drawSprite('goomba_idle', 400, 140, false, 2);
+            spriteRenderer.drawSprite('goomba_walk1', 470, 140, false, 2);
+            spriteRenderer.drawSprite('goomba_walk2', 540, 140, false, 2);
+            
+            spriteRenderer.drawSprite('koopa_idle', 400, 200, false, 2);
+            spriteRenderer.drawSprite('koopa_walk1', 470, 200, false, 2);
+            spriteRenderer.drawSprite('koopa_walk2', 540, 200, false, 2);
+            
+            spriteRenderer.drawSprite('piranha_idle', 400, 260, false, 2);
+            
+            // 道具精灵
+            ctx.fillText('道具精灵:', 400, 360);
+            spriteRenderer.drawSprite('coin', 400, 380, false, 2);
+            spriteRenderer.drawSprite('mushroom', 450, 380, false, 2);
+            spriteRenderer.drawSprite('star', 500, 380, false, 2);
+            spriteRenderer.drawSprite('flower', 550, 380, false, 2);
+            
+            // 环境精灵
+            ctx.fillText('环境元素:', 50, 480);
+            spriteRenderer.drawSprite('brick_block', 50, 500, false, 2);
+            spriteRenderer.drawSprite('question_block', 120, 500, false, 2);
+            
+            // 翻转测试
+            ctx.fillText('翻转测试:', 400, 480);
+            spriteRenderer.drawSprite('mario_small_walk1', 400, 500, false, 2);
+            spriteRenderer.drawSprite('mario_small_walk1', 470, 500, true, 2);
+            
+            // 缩放测试
+            ctx.fillText('缩放测试:', 600, 120);
+            spriteRenderer.drawSprite('mario_small_idle', 600, 140, false, 1);
+            spriteRenderer.drawSprite('mario_small_idle', 650, 140, false, 1.5);
+            spriteRenderer.drawSprite('mario_small_idle', 700, 140, false, 3);
+        }
+        
+        // 开始测试
+        testGraphics();
+        
+        // 添加一些动画
+        let animFrame = 0;
+        function animate() {
+            // 重绘部分区域进行动画测试
+            ctx.save();
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(250, 520, 200, 60);
+            
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('动画测试:', 250, 540);
+            
+            // 行走动画
+            const walkFrame = Math.floor(animFrame / 30) % 2 + 1;
+            const spriteName = 'mario_small_walk' + walkFrame;
+            spriteRenderer.drawSprite(spriteName, 250 + (animFrame % 100), 550, false, 2);
+            
+            ctx.restore();
+            
+            animFrame++;
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>
